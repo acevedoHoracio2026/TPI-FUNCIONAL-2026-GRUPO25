@@ -1,0 +1,46 @@
+
+
+;; obtener hora y fecha del sistema
+;;-----------------------------------
+(multiple-value-bind (segundo minuto hora fecha mes año dia-semana)
+(get-decoded-time)
+
+;;---------------------------------------------------------------------------
+(defun tiempo_actual()
+   (multiple-value-bind (segundo minuto hora dia mes año)(get-decoded-time)
+   (list hora minuto segundo dia mes año)))
+------------------------------------------------------------------------------
+(defun hora ()
+      (nth 0 (tiempo_actual)))
+--------------------------------------------------------------------------------
+(defun minuto()
+      (nth 1 (tiempo_actual)))
+----------------------------------------------------------------------------
+(defun segundos()
+    (nth 2 (tiempo_actual)))
+-----------------------------------------------------------------------------
+(defun mes()
+    (nth 4 (tiempo_actual)))
+-----------------------------------------------------------------------------------
+(defun dia()
+    (nth 3 (tiempo_actual)))
+-----------------------------------------------------------------------------------
+(defun La_hora_es()
+    (princ "Hora-> ")
+    (princ (hora))
+    (princ ":")
+    (princ (minuto))
+    t)
+----------------------------------------------------------------------------------
+(defun anio()
+    (nth 5 (tiempo_actual)))
+-----------------------------------------------------------------------------
+(defun tiempo_en_segundos()
+    (+(*(hora)3600)(* (minuto)60)(segundos)))
+----------------------------------------------------------------------------
+(defun semaforo()
+     
+     (setq hora_inicio (hora) min_inicio (minuto) seg_inico (segundos) dia_inicio (dia) mes_inicio (mes)            anio_inicio (anio))
+      (setq color '(verde amarillo rojo))
+      estado_semaforo( transicion((nth 0 color)(nth 1 color)))
+ t)
