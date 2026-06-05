@@ -1,0 +1,75 @@
+
+
+;; obtener hora y fecha del sistema
+;;-----------------------------------
+(multiple-value-bind (segundo minuto hora fecha mes año dia-semana)
+(get-decoded-time)
+
+;;---------------------------------------------------------------------------
+(defun tiempo_actual()
+   (multiple-value-bind (segundo minuto hora dia mes año)(get-decoded-time)
+   (list hora minuto segundo dia mes año)))
+------------------------------------------------------------------------------
+(defun hora ()
+      (nth 0 (tiempo_actual)))
+--------------------------------------------------------------------------------
+(defun minuto()
+      (nth 1 (tiempo_actual)))
+----------------------------------------------------------------------------
+(defun segundos()
+    (nth 2 (tiempo_actual)))
+-----------------------------------------------------------------------------
+(defun mes()
+    (nth 4 (tiempo_actual)))
+-----------------------------------------------------------------------------------
+(defun dia()
+    (nth 3 (tiempo_actual)))
+-----------------------------------------------------------------------------------
+(defun La_hora_es()
+    (princ "Hora-> ")
+    (princ (hora))
+    (princ ":")
+    (princ (minuto))
+    t)
+----------------------------------------------------------------------------------
+(defun anio()
+    (nth 5 (tiempo_actual)))
+-----------------------------------------------------------------------------
+(defun tiempo_en_segundos()
+    (+(*(hora)3600)(* (minuto)60)(segundos)))
+----------------------------------------------------------------------------
+(defun esperar(seg)
+   (let (t_inicio)
+   (setq t_inicio (tiempo_en_segundos))
+   (print t_inicio)
+   (loop 
+        
+       (if ( = (+ t_inicio seg) (tiempo_en_segundos)) (return) )
+    ))
+     (tiempo_en_segundos)
+-------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+;; semaforo es una funcion que recibe una lista del estado activo de cada color
+;; (R A V)--> lista ingresada (0 1 0) --> amarillo activo (1 activo 0 apagado)
+(defun semaforo_01(lista);; esto es una primera version de compartamiemto de un semaforo
+
+    (LET ((auxilio)(ESTADO)(tiempo)) ;;es una base para empezar a realizar la incorporaciones 
+                                     ;; de la funciones requeridas
+    
+    (setq auxilio (pop lista))  
+    (SETQ ESTADO (APPEND lista (cons auxilio nil))) ;proxima estado activo (rotacion)
+
+;;---------mostramos que color esta activo --------------------------------- 
+
+    (print "R A V") ;; siglas R(rojo) A(amarillo) V(verde)
+    (format t "~A" ESTADO)  
+
+;;---------determinamos que tiempo de duracion del estado o color activo --------------------------------- 
+    (COND ((= 1 (NTH 0 ESTADO)) (format t "->ROJO"(setq tiempo 9)))
+          ((= 1 (NTH 1 ESTADO)) (format t "->AMARILLO"(setq tiempo 3)))
+          ((= 1 (NTH 2 ESTADO)) (format t "->VERDE"(setq tiempo 12)))
+         )
+    (esperar tiempo)
+;;------- transicion al proximo color y una condicion para terminar la prueba---------- 
+    (if ( = (minuto) 56) t (semaforo_01 ESTADO))))
